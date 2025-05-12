@@ -29,7 +29,7 @@ EStateTreeRunStatus FUHLStateTreeSetCooldownTask::EnterState(FStateTreeExecution
 		return EStateTreeRunStatus::Failed;
 	}
 
-	AAIController* AIController = Cast<AAIController>(Context.GetOwner());
+	AAIController* AIController = InstanceData.AIController;
 	if (!AIController) return EStateTreeRunStatus::Failed;
 	
 	if (UUHLStateTreeAIComponent* Cmp = Cast<UUHLStateTreeAIComponent>(AIController->GetBrainComponent()))

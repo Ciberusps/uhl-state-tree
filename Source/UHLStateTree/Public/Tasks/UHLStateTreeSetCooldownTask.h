@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "AIController.h"
 #include "StateTreeTaskBase.h"
 #include "UHLStateTreeSetCooldownTask.generated.h"
 
@@ -13,6 +14,9 @@ struct UHLSTATETREE_API FUHLStateTreeSetCooldownTaskInstanceData
 {
 	GENERATED_BODY()
 
+	UPROPERTY(EditAnywhere, Category = "Context")
+	TObjectPtr<AAIController> AIController = nullptr;
+	
 	UPROPERTY(EditAnywhere, Category = "Parameter")
 	FGameplayTag CooldownTag;
 

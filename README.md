@@ -20,6 +20,8 @@ Support: `UE5.5 (main)`
 1. Add plugin as a git submodule in your project's `Plugins` folder:
 
    ```bash
+   // install of UnrealHelperLibrary required
+   git submodule add https://github.com/Ciberusps/unreal-helper-library.git ./Plugins/UnrealHelperLibrary
    git submodule add https://github.com/Ciberusps/uhl-state-tree.git ./Plugins/UHLStateTree
    ```
 

@@ -50,6 +50,10 @@
 		{
 			"Name": "GameplayStateTree",
 			"Enabled": true
+		},
+		{
+			"Name": "UnrealHelperLibrary",
+			"Enabled": true
 		}
 	]
 }
