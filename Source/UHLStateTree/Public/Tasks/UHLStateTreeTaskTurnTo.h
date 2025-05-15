@@ -45,6 +45,9 @@ struct UHLSTATETREE_API FUHLStateTreeTaskTurnToInstanceData
     UPROPERTY(EditAnywhere, Category="TurnTo")
     bool bDebug = false;
 
+	UPROPERTY(EditAnywhere, Category="TurnTo")
+	bool bInfinite = false;
+
 	UPROPERTY(EditAnywhere, Category = "Parameter")
 	bool bClearFocusOnSucceed = true;
 	

@@ -18,7 +18,9 @@
 EStateTreeRunStatus FUHLStateTreeTaskTurnTo::EnterState(FStateTreeExecutionContext& Context, const FStateTreeTransitionResult& Transition) const
 {
 	FInstanceDataType& InstanceData = Context.GetInstanceData(*this);
-	EStateTreeRunStatus Result = EStateTreeRunStatus::Failed;
+	EStateTreeRunStatus Result = InstanceData.bInfinite
+									? EStateTreeRunStatus::Running
+									: EStateTreeRunStatus::Failed;
 	
 	const UWorld* World = Context.GetWorld();
 	// if (World == nullptr && InstanceData.ReferenceActor != nullptr)
@@ -30,16 +32,22 @@ EStateTreeRunStatus FUHLStateTreeTaskTurnTo::EnterState(FStateTreeExecutionConte
 	// but a valid world is required.
 	if (World == nullptr)
 	{
-		return EStateTreeRunStatus::Failed;
+		return InstanceData.bInfinite
+				? EStateTreeRunStatus::Running
+				: EStateTreeRunStatus::Failed;
 	}
 
 	AAIController* AIController = InstanceData.AIController;
-	if (!AIController) return EStateTreeRunStatus::Failed;
+	if (!AIController) return InstanceData.bInfinite
+						? EStateTreeRunStatus::Running
+						: EStateTreeRunStatus::Failed;
 
 	// GEngine->AddOnScreenDebugMessage(-1, 5, FColor::Red, TEXT("[UHLStateTreeTaskTurnTo] using UUHLStateTreeAIComponent required to use SetCooldownTask"));
 
 	APawn* Pawn = AIController->GetPawn();
-	if (!Pawn) return EStateTreeRunStatus::Failed;
+	if (!Pawn) return InstanceData.bInfinite
+						? EStateTreeRunStatus::Running
+						: EStateTreeRunStatus::Failed;
 
 	const FVector PawnLocation = Pawn->GetActorLocation();
 	InstanceData.PrecisionDot = FMath::Cos(FMath::DegreesToRadians(InstanceData.Precision));
@@ -55,7 +63,9 @@ EStateTreeRunStatus FUHLStateTreeTaskTurnTo::EnterState(FStateTreeExecutionConte
 
 			if (AngleDifference >= InstanceData.PrecisionDot)
 			{
-				Result = EStateTreeRunStatus::Succeeded;
+				Result = InstanceData.bInfinite
+						? EStateTreeRunStatus::Running
+						: EStateTreeRunStatus::Succeeded;
 			}
 			else
 			{
@@ -78,7 +88,9 @@ EStateTreeRunStatus FUHLStateTreeTaskTurnTo::EnterState(FStateTreeExecutionConte
 	
 			if (AngleDifference >= InstanceData.PrecisionDot)
 			{
-				Result = EStateTreeRunStatus::Succeeded;
+				Result = InstanceData.bInfinite
+						? EStateTreeRunStatus::Running
+						: EStateTreeRunStatus::Succeeded;
 			}
 			else
 			{
@@ -122,7 +134,6 @@ EStateTreeRunStatus FUHLStateTreeTaskTurnTo::Tick(
 	FStateTreeExecutionContext& Context, const float DeltaTime) const
 {
 	FInstanceDataType& InstanceData = Context.GetInstanceData(*this);
-	EStateTreeRunStatus Result = EStateTreeRunStatus::Failed;
 	
 	const UWorld* World = Context.GetWorld();
 	// if (World == nullptr && InstanceData.ReferenceActor != nullptr)
@@ -134,94 +145,108 @@ EStateTreeRunStatus FUHLStateTreeTaskTurnTo::Tick(
 	// but a valid world is required.
 	if (World == nullptr)
 	{
-		return EStateTreeRunStatus::Failed;
+		return InstanceData.bInfinite
+				? EStateTreeRunStatus::Running
+				: EStateTreeRunStatus::Failed;
 	}
 
 	AAIController* AIController = InstanceData.AIController;
-
 	if (!AIController || !AIController->GetPawn())
 	{
-		return EStateTreeRunStatus::Failed;
+		return InstanceData.bInfinite
+				? EStateTreeRunStatus::Running
+				: EStateTreeRunStatus::Failed;
+	}
+	
+	// target enemy if its infinite task
+	if (AIController->GetFocusActorForPriority(EAIFocusPriority::Gameplay) != InstanceData.TargetActor)
+	{
+		AIController->SetFocus(InstanceData.TargetActor, EAIFocusPriority::Gameplay);
+	}
+	const FVector PawnDirection = AIController->GetPawn()->GetActorForwardVector();
+   	const FVector FocalPoint = AIController->GetFocalPointForPriority(EAIFocusPriority::Gameplay);
+    ACharacter* AICharacter = AIController->GetCharacter();
+
+	if (FocalPoint != FAISystem::InvalidLocation)
+	{
+	    float DeltaAngleRad = TurnToStatics::CalculateAngleDifferenceDot(PawnDirection, FocalPoint - AIController->GetPawn()->GetActorLocation());
+	    // float DeltaAngle = FMath::RadiansToDegrees(FMath::Acos(DeltaAngleRad));
+	    float DeltaAngle = InstanceData.TargetActor
+			? UUnrealHelperLibraryBPL::RelativeAngleToActor(AICharacter, InstanceData.TargetActor)
+			: UUnrealHelperLibraryBPL::RelativeAngleToVector(AICharacter, InstanceData.TargetLocation);
+	    UUnrealHelperLibraryBPL::DebugPrintStrings(FString::Printf(TEXT("DeltaAngle %f"), DeltaAngle), "", "", "", "", "", "", "", "", "", -1, FName("Test"));
+
+		if (InstanceData.bDebug)
+		{
+			FVector CurrentLocation = InstanceData.TargetActor
+				? InstanceData.TargetActor->GetActorLocation()
+				: InstanceData.TargetLocation;
+			DrawDebugSphere(AIController->GetWorld(), CurrentLocation,
+				50.0f, 12, FColor::Blue, false, -1);	
+		}
+
+		if (DeltaAngleRad >= InstanceData.PrecisionDot)
+		{
+		    UUnrealHelperLibraryBPL::DebugPrintStrings(FString::Printf(TEXT("TurnRange->bOverrideStopMontageOnGoalReached %hhd"), InstanceData.CurrentTurnRange.bOverrideStopMontageOnGoalReached));
+		    bool bCanStopMontage = false;
+		    if (InstanceData.CurrentTurnRange.bOverrideStopMontageOnGoalReached)
+		    {
+		        bCanStopMontage = InstanceData.CurrentTurnRange.bStopMontageOnGoalReached;
+		    }
+		    else
+		    {
+		        bCanStopMontage = InstanceData.CurrentTurnSettings.bStopMontageOnGoalReached;
+		    }
+
+		    if (bCanStopMontage)
+		    {
+		        AICharacter->StopAnimMontage();
+			    AIController->ClearFocus(EAIFocusPriority::Gameplay);
+		        // CleanUp(*AIController, NodeMemory);
+			    return InstanceData.bInfinite
+			    	? EStateTreeRunStatus::Running
+			    	: EStateTreeRunStatus::Succeeded;
+		    }
+		    else
+		    {
+			    AIController->ClearFocus(EAIFocusPriority::Gameplay);
+		        // CleanUp(*AIController, NodeMemory);
+			    return InstanceData.bInfinite
+					? EStateTreeRunStatus::Running
+					: EStateTreeRunStatus::Succeeded;
+		    }
+		}
+	    else
+	    {
+	        if (TurnToStatics::IsTurnWithAnimationRequired(AICharacter))
+	        {
+		        bool bCurrentTurnRangeSet = false;
+	            InstanceData.CurrentTurnRange = TurnToStatics::GetTurnRange(DeltaAngle, bCurrentTurnRangeSet, InstanceData.CurrentTurnSettings);
+	            if (bCurrentTurnRangeSet && InstanceData.CurrentTurnRange.AnimMontage)
+	            {
+	                AICharacter->PlayAnimMontage(InstanceData.CurrentTurnRange.AnimMontage);
+	            }
+
+	            // TODO тут ошибка?
+	            // finish if no turn animation found and "bTurnOnlyWithAnims"
+	            if (!bCurrentTurnRangeSet && InstanceData.CurrentTurnSettings.bTurnOnlyWithAnims)
+	            {
+		            AIController->ClearFocus(EAIFocusPriority::Gameplay);
+	                // CleanUp(*AIController, NodeMemory);
+		            return InstanceData.bInfinite
+						? EStateTreeRunStatus::Running
+						: EStateTreeRunStatus::Succeeded;
+	            }
+	        }
+	    }
 	}
 	else
 	{
-		const FVector PawnDirection = AIController->GetPawn()->GetActorForwardVector();
-   		const FVector FocalPoint = AIController->GetFocalPointForPriority(EAIFocusPriority::Gameplay);
-	    ACharacter* AICharacter = AIController->GetCharacter();
-
-		if (FocalPoint != FAISystem::InvalidLocation)
-		{
-		    float DeltaAngleRad = TurnToStatics::CalculateAngleDifferenceDot(PawnDirection, FocalPoint - AIController->GetPawn()->GetActorLocation());
-		    // float DeltaAngle = FMath::RadiansToDegrees(FMath::Acos(DeltaAngleRad));
-		    float DeltaAngle = InstanceData.TargetActor
-				? UUnrealHelperLibraryBPL::RelativeAngleToActor(AICharacter, InstanceData.TargetActor)
-				: UUnrealHelperLibraryBPL::RelativeAngleToVector(AICharacter, InstanceData.TargetLocation);
-		    UUnrealHelperLibraryBPL::DebugPrintStrings(FString::Printf(TEXT("DeltaAngle %f"), DeltaAngle), "", "", "", "", "", "", "", "", "", -1, FName("Test"));
-
-			if (InstanceData.bDebug)
-			{
-				FVector CurrentLocation = InstanceData.TargetActor
-					? InstanceData.TargetActor->GetActorLocation()
-					: InstanceData.TargetLocation;
-				DrawDebugSphere(AIController->GetWorld(), CurrentLocation,
-					50.0f, 12, FColor::Blue, false, -1);	
-			}
-
-			if (DeltaAngleRad >= InstanceData.PrecisionDot)
-			{
-			    UUnrealHelperLibraryBPL::DebugPrintStrings(FString::Printf(TEXT("TurnRange->bOverrideStopMontageOnGoalReached %hhd"), InstanceData.CurrentTurnRange.bOverrideStopMontageOnGoalReached));
-			    bool bCanStopMontage = false;
-			    if (InstanceData.CurrentTurnRange.bOverrideStopMontageOnGoalReached)
-			    {
-			        bCanStopMontage = InstanceData.CurrentTurnRange.bStopMontageOnGoalReached;
-			    }
-			    else
-			    {
-			        bCanStopMontage = InstanceData.CurrentTurnSettings.bStopMontageOnGoalReached;
-			    }
-
-			    if (bCanStopMontage)
-			    {
-			        AICharacter->StopAnimMontage();
-			    	AIController->ClearFocus(EAIFocusPriority::Gameplay);
-			        // CleanUp(*AIController, NodeMemory);
-			    	return EStateTreeRunStatus::Succeeded;
-			    }
-			    else
-			    {
-			    	AIController->ClearFocus(EAIFocusPriority::Gameplay);
-			        // CleanUp(*AIController, NodeMemory);
-			    	return EStateTreeRunStatus::Succeeded;
-			    }
-			}
-		    else
-		    {
-		        if (TurnToStatics::IsTurnWithAnimationRequired(AICharacter))
-		        {
-		        	bool bCurrentTurnRangeSet = false;
-		            InstanceData.CurrentTurnRange = TurnToStatics::GetTurnRange(DeltaAngle, bCurrentTurnRangeSet, InstanceData.CurrentTurnSettings);
-		            if (bCurrentTurnRangeSet && InstanceData.CurrentTurnRange.AnimMontage)
-		            {
-		                AICharacter->PlayAnimMontage(InstanceData.CurrentTurnRange.AnimMontage);
-		            }
-
-		            // TODO тут ошибка?
-		            // finish if no turn animation found and "bTurnOnlyWithAnims"
-		            if (!bCurrentTurnRangeSet && InstanceData.CurrentTurnSettings.bTurnOnlyWithAnims)
-		            {
-		            	AIController->ClearFocus(EAIFocusPriority::Gameplay);
-		                // CleanUp(*AIController, NodeMemory);
-		            	return EStateTreeRunStatus::Succeeded;
-		            }
-		        }
-		    }
-		}
-		else
-		{
-			AIController->ClearFocus(EAIFocusPriority::Gameplay);
-			// CleanUp(*AIController, NodeMemory);
-			return EStateTreeRunStatus::Failed;
-		}
+		AIController->ClearFocus(EAIFocusPriority::Gameplay);
+		// CleanUp(*AIController, NodeMemory);
+		return InstanceData.bInfinite
+					? EStateTreeRunStatus::Running
+					: EStateTreeRunStatus::Failed;
 	}
 	
 	return FStateTreeTaskCommonBase::Tick(Context, DeltaTime);
@@ -232,7 +257,7 @@ FText FUHLStateTreeTaskTurnTo::GetDescription(const FGuid& ID, FStateTreeDataVie
 {
 	const FInstanceDataType* InstanceData = InstanceDataView.GetPtr<FInstanceDataType>();
 	check(InstanceData);
-	
+
 	const FText Format = (Formatting == EStateTreeNodeFormatting::RichText)
 		? LOCTEXT("DebugTextRich", "<b>Turn To</> \"{Text}\"")
 		: LOCTEXT("DebugText", "Turn To \"{Text}\"");
@@ -242,6 +267,7 @@ FText FUHLStateTreeTaskTurnTo::GetDescription(const FGuid& ID, FStateTreeDataVie
 			? InstanceData->TargetActor.GetFullName()
 			: InstanceData->TargetLocation.ToString()));
 }
+#endif
 
 FTurnSettings FUHLStateTreeTaskTurnTo::GetTurnSettings(FStateTreeExecutionContext& Context, AActor* Actor) const
 {
@@ -262,6 +288,5 @@ FTurnSettings FUHLStateTreeTaskTurnTo::GetTurnSettings(FStateTreeExecutionContex
 	}
 	return Result;
 }
-#endif
 
 #undef LOCTEXT_NAMESPACE
