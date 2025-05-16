@@ -29,23 +29,24 @@ struct UHLSTATETREE_API FUHLStateTreeTaskTurnToInstanceData
 	UPROPERTY(EditAnywhere, Category = "Parameter")
 	FVector TargetLocation = FVector::ZeroVector;
 	
-	UPROPERTY(config, Category="TurnTo", EditAnywhere, meta = (ClampMin = "0.0", Units="Degrees"))
+	UPROPERTY(config, Category="Parameter", EditAnywhere, meta = (ClampMin = "0.0", Units="Degrees"))
     float Precision = 1.0f;
 
-    UPROPERTY(EditAnywhere, Category="TurnTo")
+    UPROPERTY(EditAnywhere, Category="Parameter")
     bool bUseTurnAnimations = true;
-    UPROPERTY(EditAnywhere, Category="TurnTo", meta=(EditCondition="bUseTurnAnimations", EditConditionHides))
+    UPROPERTY(EditAnywhere, Category="Parameter", meta=(EditCondition="bUseTurnAnimations", EditConditionHides))
     EUHLSettingsSource SettingsSource = EUHLSettingsSource::Actor;
 
-    UPROPERTY(EditAnywhere, Category="TurnTo", meta=(EditCondition="bUseTurnAnimations && SettingsSource==EUHLSettingsSource::Node", EditConditionHides))
+    UPROPERTY(EditAnywhere, Category="Parameter", meta=(EditCondition="bUseTurnAnimations && SettingsSource==EUHLSettingsSource::Node", EditConditionHides))
     FTurnSettings TurnSettings;
-    UPROPERTY(EditAnywhere, Category="TurnTo", meta=(EditCondition="bUseTurnAnimations && SettingsSource==EUHLSettingsSource::DataAsset", EditConditionHides))
+    UPROPERTY(EditAnywhere, Category="Parameter", meta=(EditCondition="bUseTurnAnimations && SettingsSource==EUHLSettingsSource::DataAsset", EditConditionHides))
     UTurnSettingsDataAsset* RotateToAnimationsDataAsset;
 
-    UPROPERTY(EditAnywhere, Category="TurnTo")
+    UPROPERTY(EditAnywhere, Category="Parameter")
     bool bDebug = false;
 
-	UPROPERTY(EditAnywhere, Category="TurnTo")
+	// TODO don't woks for now
+	UPROPERTY()
 	bool bInfinite = false;
 
 	UPROPERTY(EditAnywhere, Category = "Parameter")

@@ -220,6 +220,11 @@ EStateTreeRunStatus FUHLStateTreeTaskTurnTo::Tick(
 	    {
 	        if (TurnToStatics::IsTurnWithAnimationRequired(AICharacter))
 	        {
+	        	// if (AIController->GetFocusActorForPriority(EAIFocusPriority::Gameplay) != InstanceData.TargetActor)
+	        	// {
+	        	// 	AIController->SetFocus(InstanceData.TargetActor, EAIFocusPriority::Gameplay);
+	        	// }
+	        	
 		        bool bCurrentTurnRangeSet = false;
 	            InstanceData.CurrentTurnRange = TurnToStatics::GetTurnRange(DeltaAngle, bCurrentTurnRangeSet, InstanceData.CurrentTurnSettings);
 	            if (bCurrentTurnRangeSet && InstanceData.CurrentTurnRange.AnimMontage)
