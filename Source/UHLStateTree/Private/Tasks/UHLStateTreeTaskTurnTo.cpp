@@ -159,7 +159,9 @@ EStateTreeRunStatus FUHLStateTreeTaskTurnTo::Tick(
 	}
 	
 	// target enemy if its infinite task
-	if (AIController->GetFocusActorForPriority(EAIFocusPriority::Gameplay) != InstanceData.TargetActor)
+	if (InstanceData.bInfinite
+		&& InstanceData.TargetActor
+		&& AIController->GetFocusActorForPriority(EAIFocusPriority::Gameplay) != InstanceData.TargetActor)
 	{
 		AIController->SetFocus(InstanceData.TargetActor, EAIFocusPriority::Gameplay);
 	}
