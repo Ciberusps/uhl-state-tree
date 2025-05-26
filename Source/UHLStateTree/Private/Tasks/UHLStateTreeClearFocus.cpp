@@ -54,14 +54,11 @@ FText FUHLStateTreeClearFocus::GetDescription(const FGuid& ID, FStateTreeDataVie
 		case EUHLAIFocusPriority::Default:
 			PriorityStr = TEXT("Default");
 			break;
+		case EUHLAIFocusPriority::Move:
+			PriorityStr = TEXT("Move");
+			break;
 		case EUHLAIFocusPriority::Gameplay:
 			PriorityStr = TEXT("Gameplay");
-			break;
-		case EUHLAIFocusPriority::Logic:
-			PriorityStr = TEXT("Logic");
-			break;
-		case EUHLAIFocusPriority::High:
-			PriorityStr = TEXT("High");
 			break;
 		default:
 			PriorityStr = TEXT("Unknown");
