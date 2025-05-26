@@ -30,7 +30,7 @@ EStateTreeRunStatus FUHLStateTreeGameplayFocus::EnterState(FStateTreeExecutionCo
 
 	AIController->ClearFocus(static_cast<uint8>(InstanceData.FocusPriority));
 
-	return EStateTreeRunStatus::Failed;
+	return EStateTreeRunStatus::Running;
 }
 
 EStateTreeRunStatus FUHLStateTreeGameplayFocus::Tick(
@@ -106,14 +106,11 @@ FText FUHLStateTreeGameplayFocus::GetDescription(const FGuid& ID, FStateTreeData
 		case EUHLAIFocusPriority::Default:
 			PriorityStr = TEXT("Default");
 			break;
+		case EUHLAIFocusPriority::Move:
+			PriorityStr = TEXT("Move");
+			break;
 		case EUHLAIFocusPriority::Gameplay:
 			PriorityStr = TEXT("Gameplay");
-			break;
-		case EUHLAIFocusPriority::Logic:
-			PriorityStr = TEXT("Logic");
-			break;
-		case EUHLAIFocusPriority::High:
-			PriorityStr = TEXT("High");
 			break;
 		default:
 			PriorityStr = TEXT("Unknown");

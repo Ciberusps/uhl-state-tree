@@ -14,9 +14,8 @@ UENUM(BlueprintType)
 enum class EUHLAIFocusPriority : uint8
 {
 	Default = 0 UMETA(DisplayName = "Default"),
-	Gameplay = 1 UMETA(DisplayName = "Gameplay"),
-	Logic = 2 UMETA(DisplayName = "Logic"),
-	High = 3 UMETA(DisplayName = "High")
+	Move = 1 UMETA(DisplayName = "Move"),
+	Gameplay = 2 UMETA(DisplayName = "Gameplay")
 };
 
 USTRUCT()
