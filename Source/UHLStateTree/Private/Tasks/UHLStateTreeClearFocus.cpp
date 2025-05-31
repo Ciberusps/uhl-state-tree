@@ -30,7 +30,7 @@ EStateTreeRunStatus FUHLStateTreeClearFocus::EnterState(FStateTreeExecutionConte
 
 	AIController->ClearFocus(static_cast<uint8>(InstanceData.FocusPriority));
 
-	return EStateTreeRunStatus::Succeeded;
+	return InstanceData.bFinishTask ? EStateTreeRunStatus::Succeeded : EStateTreeRunStatus::Running;
 }
 
 #if WITH_EDITOR
