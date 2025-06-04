@@ -176,10 +176,10 @@ EStateTreeRunStatus FUHLStateTreeTaskTurnTo::Tick(
 	    float DeltaAngle = InstanceData.TargetActor
 			? UUnrealHelperLibraryBPL::RelativeAngleToActor(AICharacter, InstanceData.TargetActor)
 			: UUnrealHelperLibraryBPL::RelativeAngleToVector(AICharacter, InstanceData.TargetLocation);
-	    UUnrealHelperLibraryBPL::DebugPrintStrings(FString::Printf(TEXT("DeltaAngle %f"), DeltaAngle), "", "", "", "", "", "", "", "", "", -1, FName("Test"));
 
 		if (InstanceData.bDebug)
 		{
+			UUnrealHelperLibraryBPL::DebugPrintStrings(FString::Printf(TEXT("DeltaAngle %f"), DeltaAngle), "", "", "", "", "", "", "", "", "", -1, FName("Test"));
 			FVector CurrentLocation = InstanceData.TargetActor
 				? InstanceData.TargetActor->GetActorLocation()
 				: InstanceData.TargetLocation;
@@ -189,7 +189,10 @@ EStateTreeRunStatus FUHLStateTreeTaskTurnTo::Tick(
 
 		if (DeltaAngleRad >= InstanceData.PrecisionDot)
 		{
-		    UUnrealHelperLibraryBPL::DebugPrintStrings(FString::Printf(TEXT("TurnRange->bOverrideStopMontageOnGoalReached %hhd"), InstanceData.CurrentTurnRange.bOverrideStopMontageOnGoalReached));
+			if (InstanceData.bDebug)
+			{
+				UUnrealHelperLibraryBPL::DebugPrintStrings(FString::Printf(TEXT("TurnRange->bOverrideStopMontageOnGoalReached %hhd"), InstanceData.CurrentTurnRange.bOverrideStopMontageOnGoalReached));
+			}
 		    bool bCanStopMontage = false;
 		    if (InstanceData.CurrentTurnRange.bOverrideStopMontageOnGoalReached)
 		    {

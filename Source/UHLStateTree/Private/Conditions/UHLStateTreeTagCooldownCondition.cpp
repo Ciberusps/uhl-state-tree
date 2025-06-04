@@ -29,7 +29,8 @@ bool FUHLStateTreeTagCooldownCondition::TestCondition(FStateTreeExecutionContext
 	
 	if (UUHLStateTreeAIComponent* Cmp = Cast<UUHLStateTreeAIComponent>(AIController->GetBrainComponent()))
 	{
-		return Cmp->TagCooldowns.HasCooldownFinished(Context.GetOwner(), InstanceData.CooldownTag);
+		bool bResult = Cmp->TagCooldowns.HasCooldownFinished(Context.GetOwner(), InstanceData.CooldownTag);
+		return InstanceData.bInverse ? !bResult : bResult;
 	}
 	else
 	{
@@ -46,10 +47,11 @@ FText FUHLStateTreeTagCooldownCondition::GetDescription(const FGuid& ID, FStateT
 	check(InstanceData);
 
 	const FText Format = (Formatting == EStateTreeNodeFormatting::RichText)
-		? LOCTEXT("GameplayTagMatchRich", "Has cooldown with {CooldownTag}")
-		: LOCTEXT("GameplayTagMatch", "Has cooldown with {CooldownTag}");
+		? LOCTEXT("GameplayTagMatchRich", "Has {NO }cooldown for {CooldownTag}")
+		: LOCTEXT("GameplayTagMatch", "No {NO }cooldown for {CooldownTag}");
 
 	return FText::FormatNamed(Format,
-		TEXT("CooldownTag"), FText::FromString(InstanceData->CooldownTag.ToString()));
+		TEXT("CooldownTag"), FText::FromString(InstanceData->CooldownTag.ToString()),
+		TEXT("NO "), FText::FromString(InstanceData->bInverse ? "" : "NO "));
 }
 #endif

@@ -12,12 +12,15 @@ struct UHLSTATETREE_API FUHLStateTreeTagCooldownConditionInstanceData
 
 	UPROPERTY(EditAnywhere, Category = "Parameter")
 	FGameplayTag CooldownTag;
+
+	UPROPERTY(EditAnywhere, Category = "Parameter")
+	bool bInverse = false;
 };
 
 /**
  * HasTagCooldown condition
  */
-USTRUCT(DisplayName="Has Tag Cooldown", Category="Gameplay Tags")
+USTRUCT(DisplayName="Has NO Tag Cooldown", Category="Gameplay Tags")
 struct UHLSTATETREE_API FUHLStateTreeTagCooldownCondition : public FStateTreeConditionCommonBase
 {
 	GENERATED_BODY()
