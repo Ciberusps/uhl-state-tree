@@ -68,7 +68,7 @@ FText FUHLStateTreeGameplayFocus::GetDescription(const FGuid& ID, FStateTreeData
 	{
 		FocusTarget = FString::Printf(TEXT("Actor (Bound: %s)"), *ActorBindingSource.ToString());
 	}
-	else if (!InstanceData->ActorToFocus.IsNull())
+	else if (!InstanceData->ActorToFocus.Get())
 	{
 		FString ActorName = TEXT("Selected Actor");
 		if (InstanceData->ActorToFocus.Get())
