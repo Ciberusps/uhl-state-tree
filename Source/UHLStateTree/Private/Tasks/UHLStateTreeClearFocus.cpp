@@ -41,7 +41,7 @@ FText FUHLStateTreeClearFocus::GetDescription(const FGuid& ID, FStateTreeDataVie
 
 	// Get priority as string or binding
 	FString PriorityStr;
-	FStateTreePropertyPath PriorityPath(ID, GET_MEMBER_NAME_CHECKED(FUHLStateTreeClearFocusInstanceData, FocusPriority));
+	const FPropertyBindingPath PriorityPath(ID, GET_MEMBER_NAME_CHECKED(FUHLStateTreeClearFocusInstanceData, FocusPriority));
 	FText PriorityBindingSource = BindingLookup.GetBindingSourceDisplayName(PriorityPath);
 	if (!PriorityBindingSource.IsEmpty())
 	{
@@ -68,7 +68,7 @@ FText FUHLStateTreeClearFocus::GetDescription(const FGuid& ID, FStateTreeDataVie
 
 	// bFinishTask binding
 	FString FinishStr;
-	FStateTreePropertyPath FinishPath(ID, GET_MEMBER_NAME_CHECKED(FUHLStateTreeClearFocusInstanceData, bFinishTask));
+	const FPropertyBindingPath FinishPath(ID, GET_MEMBER_NAME_CHECKED(FUHLStateTreeClearFocusInstanceData, bFinishTask));
 	FText FinishBindingSource = BindingLookup.GetBindingSourceDisplayName(FinishPath);
 	bool bFinishTask = InstanceData->bFinishTask;
 	if (!FinishBindingSource.IsEmpty())

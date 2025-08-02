@@ -62,7 +62,7 @@ FText FUHLStateTreeGameplayFocus::GetDescription(const FGuid& ID, FStateTreeData
 
 	// Determine focus target description
 	FString FocusTarget;
-	FStateTreePropertyPath ActorPath(ID, GET_MEMBER_NAME_CHECKED(FUHLStateTreeGameplayFocusInstanceData, ActorToFocus));
+	const FPropertyBindingPath ActorPath(ID, GET_MEMBER_NAME_CHECKED(FUHLStateTreeGameplayFocusInstanceData, ActorToFocus));
 	FText ActorBindingSource = BindingLookup.GetBindingSourceDisplayName(ActorPath);
 	if (!ActorBindingSource.IsEmpty())
 	{
@@ -79,7 +79,7 @@ FText FUHLStateTreeGameplayFocus::GetDescription(const FGuid& ID, FStateTreeData
 	}
 	else
 	{
-		FStateTreePropertyPath LocationPath(ID, GET_MEMBER_NAME_CHECKED(FUHLStateTreeGameplayFocusInstanceData, LocationToFocus));
+		const FPropertyBindingPath LocationPath(ID, GET_MEMBER_NAME_CHECKED(FUHLStateTreeGameplayFocusInstanceData, LocationToFocus));
 		FText LocationBindingSource = BindingLookup.GetBindingSourceDisplayName(LocationPath);
 		if (!LocationBindingSource.IsEmpty())
 		{
@@ -93,7 +93,7 @@ FText FUHLStateTreeGameplayFocus::GetDescription(const FGuid& ID, FStateTreeData
 
 	// Get priority as string or binding
 	FString PriorityStr;
-	FStateTreePropertyPath PriorityPath(ID, GET_MEMBER_NAME_CHECKED(FUHLStateTreeGameplayFocusInstanceData, FocusPriority));
+	const FPropertyBindingPath PriorityPath(ID, GET_MEMBER_NAME_CHECKED(FUHLStateTreeGameplayFocusInstanceData, FocusPriority));
 	FText PriorityBindingSource = BindingLookup.GetBindingSourceDisplayName(PriorityPath);
 	if (!PriorityBindingSource.IsEmpty())
 	{
@@ -120,7 +120,7 @@ FText FUHLStateTreeGameplayFocus::GetDescription(const FGuid& ID, FStateTreeData
 
 	// bEnable binding
 	FString EnableStr;
-	FStateTreePropertyPath EnablePath(ID, GET_MEMBER_NAME_CHECKED(FUHLStateTreeGameplayFocusInstanceData, bEnable));
+	const FPropertyBindingPath EnablePath(ID, GET_MEMBER_NAME_CHECKED(FUHLStateTreeGameplayFocusInstanceData, bEnable));
 	FText EnableBindingSource = BindingLookup.GetBindingSourceDisplayName(EnablePath);
 	bool bEnable = InstanceData->bEnable;
 	if (!EnableBindingSource.IsEmpty())
