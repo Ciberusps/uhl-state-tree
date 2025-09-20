@@ -7,7 +7,6 @@
 #include "GameFramework/Actor.h"
 #include "DrawDebugHelpers.h"
 #include "Core/UHLAIActorSettings.h"
-#include "Tasks/BTT_TurnTo.h"
 #include "GameFramework/Character.h"
 #include "Utils/UnrealHelperLibraryBPL.h"
 
