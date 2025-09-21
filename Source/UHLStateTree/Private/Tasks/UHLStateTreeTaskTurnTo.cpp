@@ -10,6 +10,7 @@
 #include "Core/UHLAIActorSettings.h"
 #include "GameFramework/Character.h"
 #include "Engine/Engine.h"
+#include "Kismet/KismetSystemLibrary.h"
 
 #include UE_INLINE_GENERATED_CPP_BY_NAME(UHLStateTreeTaskTurnTo)
 
@@ -179,10 +180,8 @@ EStateTreeRunStatus FUHLStateTreeTaskTurnTo::Tick(
 
 		if (InstanceData.bDebug)
 		{
-			if (GEngine)
-			{
-				GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, FString::Printf(TEXT("DeltaAngle %f"), DeltaAngle));
-			}
+			FString Message = FString::Printf(TEXT("DeltaAngle %f"), DeltaAngle);
+			UKismetSystemLibrary::PrintString(nullptr, Message, true, true, FColor::Green, 5.0f);
 			FVector CurrentLocation = InstanceData.TargetActor
 				? InstanceData.TargetActor->GetActorLocation()
 				: InstanceData.TargetLocation;
