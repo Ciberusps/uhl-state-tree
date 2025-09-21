@@ -16,7 +16,7 @@ struct UHLSTATETREE_API FUHLStateTreeSetCooldownTaskInstanceData
 
 	UPROPERTY(EditAnywhere, Category = "Context")
 	TObjectPtr<AAIController> AIController = nullptr;
-	
+
 	UPROPERTY(EditAnywhere, Category = "Parameter")
 	FGameplayTag CooldownTag;
 
@@ -25,7 +25,7 @@ struct UHLSTATETREE_API FUHLStateTreeSetCooldownTaskInstanceData
 
 	/** True if we are adding to any existing duration, false if we are setting the duration (potentially invalidating an existing end time). */
 	UPROPERTY(EditAnywhere, Category = "Parameter", DisplayName = AddToExistingDuration)
-	bool bAddToExistingDuration;
+	bool bAddToExistingDuration = false;
 
 	UPROPERTY(EditAnywhere, Category = "Parameter")
 	bool bFinishTask = true;
@@ -44,7 +44,7 @@ struct UHLSTATETREE_API FUHLStateTreeSetCooldownTask : public FStateTreeTaskComm
 	GENERATED_BODY()
 
 	using FInstanceDataType = FUHLStateTreeSetCooldownTaskInstanceData;
-	
+
 	FUHLStateTreeSetCooldownTask() = default;
 
 	virtual const UStruct* GetInstanceDataType() const override { return FInstanceDataType::StaticStruct(); }

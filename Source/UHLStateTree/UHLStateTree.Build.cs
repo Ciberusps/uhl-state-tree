@@ -32,11 +32,9 @@ public class UHLStateTree : ModuleRules
 				"GameplayAbilities",
 				"GameplayTags",
 				"GameplayTasks",
-				
+
 				"AIModule",
-				
-				// UHL/UHLAI required due to "TurnTo" settings sharing
-				"UnrealHelperLibrary", 
+
 				"UHLAI"
 
 				// ... add other public dependencies that you statically link with here ...

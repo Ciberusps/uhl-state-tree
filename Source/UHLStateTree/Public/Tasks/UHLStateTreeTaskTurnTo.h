@@ -4,7 +4,7 @@
 
 #include "AIController.h"
 #include "StateTreeTaskBase.h"
-#include "UnrealHelperLibraryTypes.h"
+#include "Core/UHLAIActorSettings.h"
 #include "Data/TurnSettings.h"
 #include "UHLStateTreeTaskTurnTo.generated.h"
 
@@ -18,7 +18,7 @@ struct UHLSTATETREE_API FUHLStateTreeTaskTurnToInstanceData
 
 	UPROPERTY(EditAnywhere, Category = "Context")
 	TObjectPtr<AAIController> AIController = nullptr;
-	
+
 	// The query will be run with this actor has the owner object.
 	UPROPERTY(EditAnywhere, Category = "Context")
 	TObjectPtr<ACharacter> Character = nullptr;
@@ -28,7 +28,7 @@ struct UHLSTATETREE_API FUHLStateTreeTaskTurnToInstanceData
 
 	UPROPERTY(EditAnywhere, Category = "Parameter")
 	FVector TargetLocation = FVector::ZeroVector;
-	
+
 	UPROPERTY(config, Category="Parameter", EditAnywhere, meta = (ClampMin = "0.0", Units="Degrees"))
     float Precision = 1.0f;
 
@@ -40,7 +40,7 @@ struct UHLSTATETREE_API FUHLStateTreeTaskTurnToInstanceData
     UPROPERTY(EditAnywhere, Category="Parameter", meta=(EditCondition="bUseTurnAnimations && SettingsSource==EUHLSettingsSource::Node", EditConditionHides))
     FTurnSettings TurnSettings;
     UPROPERTY(EditAnywhere, Category="Parameter", meta=(EditCondition="bUseTurnAnimations && SettingsSource==EUHLSettingsSource::DataAsset", EditConditionHides))
-    UTurnSettingsDataAsset* RotateToAnimationsDataAsset;
+    UTurnSettingsDataAsset* RotateToAnimationsDataAsset = nullptr;
 
     UPROPERTY(EditAnywhere, Category="Parameter")
     bool bDebug = false;
@@ -51,7 +51,7 @@ struct UHLSTATETREE_API FUHLStateTreeTaskTurnToInstanceData
 
 	UPROPERTY(EditAnywhere, Category = "Parameter")
 	bool bClearFocusOnSucceed = true;
-	
+
 	// UPROPERTY(EditAnywhere, Category = "Parameter")
 	// bool bFinishTask = true;
 
@@ -77,7 +77,7 @@ struct UHLSTATETREE_API FUHLStateTreeTaskTurnTo : public FStateTreeTaskCommonBas
 	GENERATED_BODY()
 
 	using FInstanceDataType = FUHLStateTreeTaskTurnToInstanceData;
-	
+
 	FUHLStateTreeTaskTurnTo() = default;
 
 	virtual const UStruct* GetInstanceDataType() const override { return FInstanceDataType::StaticStruct(); }
@@ -95,7 +95,7 @@ struct UHLSTATETREE_API FUHLStateTreeTaskTurnTo : public FStateTreeTaskCommonBas
 		return UE::StateTree::Colors::Grey;
 	}
 #endif
-	
+
 private:
 	FTurnSettings GetTurnSettings(FStateTreeExecutionContext& Context, AActor* Actor) const;
 };
