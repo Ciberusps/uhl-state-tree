@@ -181,7 +181,7 @@ EStateTreeRunStatus FUHLStateTreeTaskTurnTo::Tick(
 		if (InstanceData.bDebug)
 		{
 			FString Message = FString::Printf(TEXT("DeltaAngle %f"), DeltaAngle);
-			UKismetSystemLibrary::PrintString(nullptr, Message, true, true, FColor::Green, 5.0f);
+			UKismetSystemLibrary::PrintString(nullptr, Message, true, true, FColor::Green, 5.0f, "DeltaAngle");
 			FVector CurrentLocation = InstanceData.TargetActor
 				? InstanceData.TargetActor->GetActorLocation()
 				: InstanceData.TargetLocation;
