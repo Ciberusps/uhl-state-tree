@@ -1,16 +1,14 @@
 // Pavel Penkov 2025 All Rights Reserved.
 
-#include "Conditions/UHLSTConditionInAngle.h"
+#include "Conditions/UHLSTCondition_InAngle.h"
 
 #include "StateTreeExecutionContext.h"
 #include "StateTreeNodeDescriptionHelpers.h"
 #include "DrawDebugHelpers.h"
 
-#include UE_INLINE_GENERATED_CPP_BY_NAME(UHLSTConditionInAngle)
+#include UE_INLINE_GENERATED_CPP_BY_NAME(UHLSTCondition_InAngle)
 
-#if WITH_EDITOR
-#define LOCTEXT_NAMESPACE "UHLStateTree"
-#endif
+#define LOCTEXT_NAMESPACE "UHLSTCondition_InAngle"
 
 namespace
 {
@@ -48,7 +46,7 @@ namespace
 	}
 }
 
-bool FUHLSTConditionInAngle::TestCondition(FStateTreeExecutionContext& Context) const
+bool FUHLSTCondition_InAngle::TestCondition(FStateTreeExecutionContext& Context) const
 {
 	const FInstanceDataType& InstanceData = Context.GetInstanceData(*this);
 
@@ -133,12 +131,12 @@ static FText FormatAngleRangeText(const FFloatRange& Range)
 	return FText::FromString(FString::Printf(TEXT("[%s, %s]"), *MinStr, *MaxStr));
 }
 
-FText FUHLSTConditionInAngle::GetDescription(const FGuid& ID, FStateTreeDataView InstanceDataView, const IStateTreeBindingLookup& BindingLookup, EStateTreeNodeFormatting Formatting) const
+FText FUHLSTCondition_InAngle::GetDescription(const FGuid& ID, FStateTreeDataView InstanceDataView, const IStateTreeBindingLookup& BindingLookup, EStateTreeNodeFormatting Formatting) const
 {
 	const FInstanceDataType* InstanceData = InstanceDataView.GetPtr<FInstanceDataType>();
 	check(InstanceData);
 
-	const FPropertyBindingPath TargetPath(ID, GET_MEMBER_NAME_CHECKED(FUHLSTConditionInAngleInstanceData, OtherCharacter));
+	const FPropertyBindingPath TargetPath(ID, GET_MEMBER_NAME_CHECKED(FUHLSTCondition_InAngleInstanceData, OtherCharacter));
 	const bool bIsOtherCharacterBound = !BindingLookup.GetBindingSourceDisplayName(TargetPath).IsEmpty();
 	const bool bHasTargetCharacter = InstanceData->OtherCharacter != nullptr || bIsOtherCharacterBound;
 

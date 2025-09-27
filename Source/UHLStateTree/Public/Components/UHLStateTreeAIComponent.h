@@ -13,7 +13,7 @@
 /**
  * 
  */
-UCLASS(BlueprintType, meta=(BlueprintSpawnableComponent))
+UCLASS(BlueprintType, meta=(BlueprintSpawnableComponent), Category="UHLStateTreeAIComponent")
 class UHLSTATETREE_API UUHLStateTreeAIComponent : public UStateTreeAIComponent
 {
 	GENERATED_BODY()

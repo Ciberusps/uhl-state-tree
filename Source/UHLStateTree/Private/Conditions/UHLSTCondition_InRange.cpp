@@ -1,6 +1,6 @@
 // Pavel Penkov 2025 All Rights Reserved.
 
-#include "Conditions/UHLSTConditionInRange.h"
+#include "Conditions/UHLSTCondition_InRange.h"
 
 #include "StateTreeExecutionContext.h"
 #include "StateTreeNodeDescriptionHelpers.h"
@@ -8,11 +8,9 @@
 #include "Internationalization/Internationalization.h"
 #include "DrawDebugHelpers.h"
 
-#include UE_INLINE_GENERATED_CPP_BY_NAME(UHLSTConditionInRange)
+#include UE_INLINE_GENERATED_CPP_BY_NAME(UHLSTCondition_InRange)
 
-#if WITH_EDITOR
-#define LOCTEXT_NAMESPACE "UHLStateTree"
-#endif
+#define LOCTEXT_NAMESPACE "UHLSTCondition_InRange"
 
 namespace {
     static float GetCapsuleRadiusSafe(const ACharacter* Character)
@@ -36,7 +34,7 @@ namespace {
     }
 }
 
-bool FUHLSTConditionInRange::TestCondition(FStateTreeExecutionContext& Context) const
+bool FUHLSTCondition_InRange::TestCondition(FStateTreeExecutionContext& Context) const
 {
 	const FInstanceDataType& InstanceData = Context.GetInstanceData(*this);
 
@@ -172,13 +170,13 @@ static FText FormatRangeText(const FFloatRange& Range)
 	return FText::FromString(FString::Printf(TEXT("[%s, %s]"), *MinStr, *MaxStr));
 }
 
-FText FUHLSTConditionInRange::GetDescription(const FGuid& ID, FStateTreeDataView InstanceDataView, const IStateTreeBindingLookup& BindingLookup, EStateTreeNodeFormatting Formatting) const
+FText FUHLSTCondition_InRange::GetDescription(const FGuid& ID, FStateTreeDataView InstanceDataView, const IStateTreeBindingLookup& BindingLookup, EStateTreeNodeFormatting Formatting) const
 {
 	const FInstanceDataType* InstanceData = InstanceDataView.GetPtr<FInstanceDataType>();
 	check(InstanceData);
 
 	// Treat property as set if either a direct value is provided or there is a binding
-	const FPropertyBindingPath TargetPath(ID, GET_MEMBER_NAME_CHECKED(FUHLSTConditionInRangeInstanceData, OtherCharacter));
+	const FPropertyBindingPath TargetPath(ID, GET_MEMBER_NAME_CHECKED(FUHLSTCondition_InRangeInstanceData, OtherCharacter));
 	const bool bIsOtherCharacterBound = !BindingLookup.GetBindingSourceDisplayName(TargetPath).IsEmpty();
 	const bool bHasTargetCharacter = InstanceData->OtherCharacter != nullptr || bIsOtherCharacterBound;
 

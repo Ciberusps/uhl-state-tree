@@ -5,14 +5,14 @@
 #include "CoreMinimal.h"
 #include "StateTreeConditionBase.h"
 #include "GameFramework/Character.h"
-#include "UHLSTConditionInRange.generated.h"
+#include "UHLSTCondition_InAngle.generated.h"
 
 USTRUCT()
-struct UHLSTATETREE_API FUHLSTConditionInRangeInstanceData
+struct UHLSTATETREE_API FUHLSTCondition_InAngleInstanceData
 {
 	GENERATED_BODY()
 
-	// Context character to measure distance from.
+	// Context character to measure angles from (forward vector reference).
 	UPROPERTY(EditAnywhere, Category = "Context")
 	TObjectPtr<ACharacter> Character = nullptr;
 
@@ -24,17 +24,10 @@ struct UHLSTATETREE_API FUHLSTConditionInRangeInstanceData
 	UPROPERTY(EditAnywhere, Category = "Parameter")
 	FVector Location = FVector::ZeroVector;
 
-	// Distance range to test against. Uses inclusive bounds by default and honors open/exclusive bounds.
+	// Set of angle ranges in degrees relative to Character forward (+right is positive).
+	// If any of the ranges contains the signed angle, the test passes.
 	UPROPERTY(EditAnywhere, Category = "Parameter")
-	FFloatRange Range = FFloatRange(0.0f, 1000.0f);
-
-	// If true, subtracts self capsule radius from measured distance before range test.
-	UPROPERTY(EditAnywhere, Category = "Parameter")
-	bool bIncludeSelfCapsuleRadius = true;
-
-	// If true and OtherCharacter is used, subtracts target capsule radius from measured distance before range test.
-	UPROPERTY(EditAnywhere, Category = "Parameter")
-	bool bIncludeTargetCapsuleRadius = true;
+	TArray<FFloatRange> Ranges;
 
 	// If true, result is inverted.
 	UPROPERTY(EditAnywhere, Category = "Parameter")
@@ -54,25 +47,25 @@ struct UHLSTATETREE_API FUHLSTConditionInRangeInstanceData
 };
 
 /**
- * InRange condition. Tests if Character is within Range of OtherCharacter or Location.
+ * InAngle condition. Tests if signed yaw to OtherCharacter or Location is within any given ranges.
  */
-USTRUCT(meta=(DisplayName="In Range", Category = "UHLStateTree"))
-struct UHLSTATETREE_API FUHLSTConditionInRange : public FStateTreeConditionCommonBase
+USTRUCT(meta = (DisplayName="In Angles", Category = "UHLStateTree"))
+struct UHLSTATETREE_API FUHLSTCondition_InAngle : public FStateTreeConditionCommonBase
 {
 	GENERATED_BODY()
 
-	using FInstanceDataType = FUHLSTConditionInRangeInstanceData;
+	using FInstanceDataType = FUHLSTCondition_InAngleInstanceData;
 
-	FUHLSTConditionInRange() = default;
+	FUHLSTCondition_InAngle() = default;
 
-	virtual const UStruct* GetInstanceDataType() const override { return FUHLSTConditionInRangeInstanceData::StaticStruct(); }
+	virtual const UStruct* GetInstanceDataType() const override { return FUHLSTCondition_InAngleInstanceData::StaticStruct(); }
 	virtual bool TestCondition(FStateTreeExecutionContext& Context) const override;
 
 #if WITH_EDITOR
 	virtual FText GetDescription(const FGuid& ID, FStateTreeDataView InstanceDataView, const IStateTreeBindingLookup& BindingLookup, EStateTreeNodeFormatting Formatting = EStateTreeNodeFormatting::Text) const override;
 	virtual FName GetIconName() const override
 	{
-		return FName("StateTreeEditorStyle|Node.Distance");
+		return FName("StateTreeEditorStyle|Node.Direction");
 	}
 	virtual FColor GetIconColor() const override
 	{
@@ -80,5 +73,6 @@ struct UHLSTATETREE_API FUHLSTConditionInRange : public FStateTreeConditionCommo
 	}
 #endif
 };
+
 
 

@@ -3,10 +3,10 @@
 #pragma once
 
 #include "StateTreeConditionBase.h"
-#include "UHLStateTreeTagCooldownCondition.generated.h"
+#include "UHLSTCondition_TagCooldown.generated.h"
 
 USTRUCT()
-struct UHLSTATETREE_API FUHLStateTreeTagCooldownConditionInstanceData
+struct UHLSTATETREE_API FUHLSTCondition_TagCooldownInstanceData
 {
 	GENERATED_BODY()
 
@@ -20,14 +20,14 @@ struct UHLSTATETREE_API FUHLStateTreeTagCooldownConditionInstanceData
 /**
  * HasTagCooldown condition
  */
-USTRUCT(DisplayName="Has NO Tag Cooldown", Category="Gameplay Tags")
-struct UHLSTATETREE_API FUHLStateTreeTagCooldownCondition : public FStateTreeConditionCommonBase
+USTRUCT(meta = (DisplayName="Has NO Tag Cooldown", Category="UHLStateTree"))
+struct UHLSTATETREE_API FUHLSTCondition_TagCooldown : public FStateTreeConditionCommonBase
 {
 	GENERATED_BODY()
 
-	using FInstanceDataType = FUHLStateTreeTagCooldownConditionInstanceData;
+	using FInstanceDataType = FUHLSTCondition_TagCooldownInstanceData;
 
-	FUHLStateTreeTagCooldownCondition() = default;
+	FUHLSTCondition_TagCooldown() = default;
 	
 	virtual const UStruct* GetInstanceDataType() const override { return FInstanceDataType::StaticStruct(); }
 	virtual bool TestCondition(FStateTreeExecutionContext& Context) const override;

@@ -5,7 +5,7 @@
 #include "AIController.h"
 #include "StateTreeTaskBase.h"
 #include "AITypes.h"
-#include "UHLStateTreeGameplayFocus.generated.h"
+#include "UHLSTTask_GameplayFocus.generated.h"
 
 enum class EStateTreeRunStatus : uint8;
 struct FStateTreeTransitionResult;
@@ -19,7 +19,7 @@ enum class EUHLAIFocusPriority : uint8
 };
 
 USTRUCT()
-struct UHLSTATETREE_API FUHLStateTreeGameplayFocusInstanceData
+struct UHLSTATETREE_API FUHLSTTask_GameplayFocusInstanceData
 {
 	GENERATED_BODY()
 
@@ -39,14 +39,14 @@ struct UHLSTATETREE_API FUHLStateTreeGameplayFocusInstanceData
 	bool bEnable = true;
 };
 
-USTRUCT(meta = (DisplayName = "GameplayFocus"))
-struct UHLSTATETREE_API FUHLStateTreeGameplayFocus : public FStateTreeTaskCommonBase
+USTRUCT(meta = (DisplayName = "GameplayFocus", Category="UHLStateTree"))
+struct UHLSTATETREE_API FUHLSTTask_GameplayFocus : public FStateTreeTaskCommonBase
 {
 	GENERATED_BODY()
 
-	using FInstanceDataType = FUHLStateTreeGameplayFocusInstanceData;
+	using FInstanceDataType = FUHLSTTask_GameplayFocusInstanceData;
 	
-	FUHLStateTreeGameplayFocus() = default;
+	FUHLSTTask_GameplayFocus() = default;
 
 	virtual const UStruct* GetInstanceDataType() const override { return FInstanceDataType::StaticStruct(); }
 

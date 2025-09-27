@@ -1,6 +1,6 @@
 ﻿// Pavel Penkov 2025 All Rights Reserved.
 
-#include "Tasks/UHLStateTreeClearFocus.h"
+#include "Tasks/UHLSTTask_ClearFocus.h"
 
 #include "AIController.h"
 #include "StateTreeExecutionContext.h"
@@ -8,11 +8,11 @@
 #include "DrawDebugHelpers.h"
 #include "Components/UHLStateTreeAIComponent.h"
 
-#include UE_INLINE_GENERATED_CPP_BY_NAME(UHLStateTreeClearFocus)
+#include UE_INLINE_GENERATED_CPP_BY_NAME(UHLSTTask_ClearFocus)
 
-#define LOCTEXT_NAMESPACE "UHLStateTree"
+#define LOCTEXT_NAMESPACE "UHLSTTask_ClearFocus"
 
-EStateTreeRunStatus FUHLStateTreeClearFocus::EnterState(FStateTreeExecutionContext& Context, const FStateTreeTransitionResult& Transition) const
+EStateTreeRunStatus FUHLSTTask_ClearFocus::EnterState(FStateTreeExecutionContext& Context, const FStateTreeTransitionResult& Transition) const
 {
 	const FInstanceDataType& InstanceData = Context.GetInstanceData(*this);
 	
@@ -34,14 +34,14 @@ EStateTreeRunStatus FUHLStateTreeClearFocus::EnterState(FStateTreeExecutionConte
 }
 
 #if WITH_EDITOR
-FText FUHLStateTreeClearFocus::GetDescription(const FGuid& ID, FStateTreeDataView InstanceDataView, const IStateTreeBindingLookup& BindingLookup, EStateTreeNodeFormatting Formatting) const
+FText FUHLSTTask_ClearFocus::GetDescription(const FGuid& ID, FStateTreeDataView InstanceDataView, const IStateTreeBindingLookup& BindingLookup, EStateTreeNodeFormatting Formatting) const
 {
 	const FInstanceDataType* InstanceData = InstanceDataView.GetPtr<FInstanceDataType>();
 	check(InstanceData);
 
 	// Get priority as string or binding
 	FString PriorityStr;
-	const FPropertyBindingPath PriorityPath(ID, GET_MEMBER_NAME_CHECKED(FUHLStateTreeClearFocusInstanceData, FocusPriority));
+	const FPropertyBindingPath PriorityPath(ID, GET_MEMBER_NAME_CHECKED(FUHLSTTask_ClearFocusInstanceData, FocusPriority));
 	FText PriorityBindingSource = BindingLookup.GetBindingSourceDisplayName(PriorityPath);
 	if (!PriorityBindingSource.IsEmpty())
 	{
@@ -68,7 +68,7 @@ FText FUHLStateTreeClearFocus::GetDescription(const FGuid& ID, FStateTreeDataVie
 
 	// bFinishTask binding
 	FString FinishStr;
-	const FPropertyBindingPath FinishPath(ID, GET_MEMBER_NAME_CHECKED(FUHLStateTreeClearFocusInstanceData, bFinishTask));
+	const FPropertyBindingPath FinishPath(ID, GET_MEMBER_NAME_CHECKED(FUHLSTTask_ClearFocusInstanceData, bFinishTask));
 	FText FinishBindingSource = BindingLookup.GetBindingSourceDisplayName(FinishPath);
 	bool bFinishTask = InstanceData->bFinishTask;
 	if (!FinishBindingSource.IsEmpty())
@@ -91,12 +91,12 @@ FText FUHLStateTreeClearFocus::GetDescription(const FGuid& ID, FStateTreeDataVie
 	return FText::FromString(FString::Printf(TEXT(">%s"), *Description));
 }
 
-FName FUHLStateTreeClearFocus::GetIconName() const
+FName FUHLSTTask_ClearFocus::GetIconName() const
 {
 	return FName("Icons.Cross");
 }
 
-FColor FUHLStateTreeClearFocus::GetIconColor() const
+FColor FUHLSTTask_ClearFocus::GetIconColor() const
 {
 	return UE::StateTree::Colors::Grey;
 }

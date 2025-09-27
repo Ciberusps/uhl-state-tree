@@ -4,7 +4,7 @@
 
 #include "StateTreeTaskBase.h"
 #include "UObject/NameTypes.h"
-#include "UHLSTTaskPlayAnimMontage.generated.h"
+#include "UHLSTTask_PlayAnimMontage.generated.h"
 
 class ACharacter;
 class USkeletalMeshComponent;
@@ -15,7 +15,7 @@ enum class EStateTreeRunStatus : uint8;
 struct FStateTreeTransitionResult;
 
 USTRUCT()
-struct UHLSTATETREE_API FUHLSTTaskPlayAnimMontageInstanceData
+struct UHLSTATETREE_API FUHLSTTask_PlayAnimMontageInstanceData
 {
 	GENERATED_BODY()
 
@@ -80,13 +80,13 @@ struct UHLSTATETREE_API FUHLSTTaskPlayAnimMontageInstanceData
  * Play Anim Montage on Character (or custom mesh).
  */
 USTRUCT(meta = (DisplayName = "Play AnimMontage", Category = "UHLStateTree"))
-struct UHLSTATETREE_API FUHLSTTaskPlayAnimMontage : public FStateTreeTaskCommonBase
+struct UHLSTATETREE_API FUHLSTTask_PlayAnimMontage : public FStateTreeTaskCommonBase
 {
 	GENERATED_BODY()
 
-	using FInstanceDataType = FUHLSTTaskPlayAnimMontageInstanceData;
+	using FInstanceDataType = FUHLSTTask_PlayAnimMontageInstanceData;
 
-	FUHLSTTaskPlayAnimMontage() = default;
+	FUHLSTTask_PlayAnimMontage() = default;
 
 	virtual const UStruct* GetInstanceDataType() const override { return FInstanceDataType::StaticStruct(); }
 

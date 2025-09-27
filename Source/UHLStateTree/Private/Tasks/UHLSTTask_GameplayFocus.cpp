@@ -1,6 +1,6 @@
 ﻿// Pavel Penkov 2025 All Rights Reserved.
 
-#include "Tasks/UHLStateTreeGameplayFocus.h"
+#include "Tasks/UHLSTTask_GameplayFocus.h"
 
 #include "AIController.h"
 #include "StateTreeExecutionContext.h"
@@ -8,11 +8,11 @@
 #include "DrawDebugHelpers.h"
 #include "Components/UHLStateTreeAIComponent.h"
 
-#include UE_INLINE_GENERATED_CPP_BY_NAME(UHLStateTreeGameplayFocus)
+#include UE_INLINE_GENERATED_CPP_BY_NAME(UHLSTTask_GameplayFocus)
 
-#define LOCTEXT_NAMESPACE "UHLStateTree"
+#define LOCTEXT_NAMESPACE "UHLSTTask_GameplayFocus"
 
-EStateTreeRunStatus FUHLStateTreeGameplayFocus::EnterState(FStateTreeExecutionContext& Context, const FStateTreeTransitionResult& Transition) const
+EStateTreeRunStatus FUHLSTTask_GameplayFocus::EnterState(FStateTreeExecutionContext& Context, const FStateTreeTransitionResult& Transition) const
 {
 	const FInstanceDataType& InstanceData = Context.GetInstanceData(*this);
 	
@@ -33,7 +33,7 @@ EStateTreeRunStatus FUHLStateTreeGameplayFocus::EnterState(FStateTreeExecutionCo
 	return EStateTreeRunStatus::Running;
 }
 
-EStateTreeRunStatus FUHLStateTreeGameplayFocus::Tick(
+EStateTreeRunStatus FUHLSTTask_GameplayFocus::Tick(
 	FStateTreeExecutionContext& Context, const float DeltaTime) const
 {
 	const FInstanceDataType& InstanceData = Context.GetInstanceData(*this);
@@ -55,14 +55,14 @@ EStateTreeRunStatus FUHLStateTreeGameplayFocus::Tick(
 }
 
 #if WITH_EDITOR
-FText FUHLStateTreeGameplayFocus::GetDescription(const FGuid& ID, FStateTreeDataView InstanceDataView, const IStateTreeBindingLookup& BindingLookup, EStateTreeNodeFormatting Formatting) const
+FText FUHLSTTask_GameplayFocus::GetDescription(const FGuid& ID, FStateTreeDataView InstanceDataView, const IStateTreeBindingLookup& BindingLookup, EStateTreeNodeFormatting Formatting) const
 {
 	const FInstanceDataType* InstanceData = InstanceDataView.GetPtr<FInstanceDataType>();
 	check(InstanceData);
 
 	// Determine focus target description
 	FString FocusTarget;
-	const FPropertyBindingPath ActorPath(ID, GET_MEMBER_NAME_CHECKED(FUHLStateTreeGameplayFocusInstanceData, ActorToFocus));
+	const FPropertyBindingPath ActorPath(ID, GET_MEMBER_NAME_CHECKED(FUHLSTTask_GameplayFocusInstanceData, ActorToFocus));
 	FText ActorBindingSource = BindingLookup.GetBindingSourceDisplayName(ActorPath);
 	if (!ActorBindingSource.IsEmpty())
 	{
@@ -79,7 +79,7 @@ FText FUHLStateTreeGameplayFocus::GetDescription(const FGuid& ID, FStateTreeData
 	}
 	else
 	{
-		const FPropertyBindingPath LocationPath(ID, GET_MEMBER_NAME_CHECKED(FUHLStateTreeGameplayFocusInstanceData, LocationToFocus));
+		const FPropertyBindingPath LocationPath(ID, GET_MEMBER_NAME_CHECKED(FUHLSTTask_GameplayFocusInstanceData, LocationToFocus));
 		FText LocationBindingSource = BindingLookup.GetBindingSourceDisplayName(LocationPath);
 		if (!LocationBindingSource.IsEmpty())
 		{
@@ -93,7 +93,7 @@ FText FUHLStateTreeGameplayFocus::GetDescription(const FGuid& ID, FStateTreeData
 
 	// Get priority as string or binding
 	FString PriorityStr;
-	const FPropertyBindingPath PriorityPath(ID, GET_MEMBER_NAME_CHECKED(FUHLStateTreeGameplayFocusInstanceData, FocusPriority));
+	const FPropertyBindingPath PriorityPath(ID, GET_MEMBER_NAME_CHECKED(FUHLSTTask_GameplayFocusInstanceData, FocusPriority));
 	FText PriorityBindingSource = BindingLookup.GetBindingSourceDisplayName(PriorityPath);
 	if (!PriorityBindingSource.IsEmpty())
 	{
@@ -120,7 +120,7 @@ FText FUHLStateTreeGameplayFocus::GetDescription(const FGuid& ID, FStateTreeData
 
 	// bEnable binding
 	FString EnableStr;
-	const FPropertyBindingPath EnablePath(ID, GET_MEMBER_NAME_CHECKED(FUHLStateTreeGameplayFocusInstanceData, bEnable));
+	const FPropertyBindingPath EnablePath(ID, GET_MEMBER_NAME_CHECKED(FUHLSTTask_GameplayFocusInstanceData, bEnable));
 	FText EnableBindingSource = BindingLookup.GetBindingSourceDisplayName(EnablePath);
 	bool bEnable = InstanceData->bEnable;
 	if (!EnableBindingSource.IsEmpty())
@@ -151,12 +151,12 @@ FText FUHLStateTreeGameplayFocus::GetDescription(const FGuid& ID, FStateTreeData
 	return FText::FromString(FString::Printf(TEXT(">%s"), *Description));
 }
 
-FName FUHLStateTreeGameplayFocus::GetIconName() const
+FName FUHLSTTask_GameplayFocus::GetIconName() const
 {
 	return FName("BTEditor.Graph.BTNode.Service.DefaultFocus.Icon");
 }
 
-FColor FUHLStateTreeGameplayFocus::GetIconColor() const
+FColor FUHLSTTask_GameplayFocus::GetIconColor() const
 {
 	return UE::StateTree::Colors::Grey;
 }

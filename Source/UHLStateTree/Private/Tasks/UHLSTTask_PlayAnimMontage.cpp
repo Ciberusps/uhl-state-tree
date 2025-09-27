@@ -1,6 +1,6 @@
 // Pavel Penkov 2025 All Rights Reserved.
 
-#include "Tasks/UHLSTTaskPlayAnimMontage.h"
+#include "Tasks/UHLSTTask_PlayAnimMontage.h"
 
 #include "StateTreeExecutionContext.h"
 #include "GameFramework/Character.h"
@@ -8,11 +8,11 @@
 #include "Net/UHLMontageReplicatorObject.h"
 #include "StateTreeLinker.h"
 
-#include UE_INLINE_GENERATED_CPP_BY_NAME(UHLSTTaskPlayAnimMontage)
+#include UE_INLINE_GENERATED_CPP_BY_NAME(UHLSTTask_PlayAnimMontage)
 
-#define LOCTEXT_NAMESPACE "UHLSTTaskPlayAnimMontage"
+#define LOCTEXT_NAMESPACE "UHLSTTask_PlayAnimMontage"
 
-USkeletalMeshComponent* FUHLSTTaskPlayAnimMontage::ResolveMesh(const FInstanceDataType& InstanceData) const
+USkeletalMeshComponent* FUHLSTTask_PlayAnimMontage::ResolveMesh(const FInstanceDataType& InstanceData) const
 {
 	if (InstanceData.CustomMesh)
 	{
@@ -21,7 +21,7 @@ USkeletalMeshComponent* FUHLSTTaskPlayAnimMontage::ResolveMesh(const FInstanceDa
 	return InstanceData.Character ? InstanceData.Character->GetMesh() : nullptr;
 }
 
-bool FUHLSTTaskPlayAnimMontage::IsMontagePlaying(USkeletalMeshComponent* Mesh, const UAnimMontage* Montage) const
+bool FUHLSTTask_PlayAnimMontage::IsMontagePlaying(USkeletalMeshComponent* Mesh, const UAnimMontage* Montage) const
 {
 	if (!Mesh) return false;
 	UAnimInstance* AnimInstance = Mesh->GetAnimInstance();
@@ -33,7 +33,7 @@ static void UHL_BindMontageDelegates(
     FStateTreeExecutionContext& Context,
     UAnimInstance* AnimInstance,
     UAnimMontage* Montage,
-    FUHLSTTaskPlayAnimMontage::FInstanceDataType& InstanceData)
+    FUHLSTTask_PlayAnimMontage::FInstanceDataType& InstanceData)
 {
 	if (!AnimInstance || !Montage) return;
 	InstanceData.BoundAnimInstance = AnimInstance;
@@ -54,7 +54,7 @@ static void UHL_BindMontageDelegates(
 	AnimInstance->Montage_SetBlendingOutDelegate(BlendOut, Montage);
 }
 
-EStateTreeRunStatus FUHLSTTaskPlayAnimMontage::EnterState(FStateTreeExecutionContext& Context, const FStateTreeTransitionResult& Transition) const
+EStateTreeRunStatus FUHLSTTask_PlayAnimMontage::EnterState(FStateTreeExecutionContext& Context, const FStateTreeTransitionResult& Transition) const
 {
 	FInstanceDataType& InstanceData = Context.GetInstanceData(*this);
 	if (!InstanceData.Character || !InstanceData.AnimMontage)
@@ -141,7 +141,7 @@ EStateTreeRunStatus FUHLSTTaskPlayAnimMontage::EnterState(FStateTreeExecutionCon
 	return EStateTreeRunStatus::Running;
 }
 
-EStateTreeRunStatus FUHLSTTaskPlayAnimMontage::Tick(FStateTreeExecutionContext& Context, const float DeltaTime) const
+EStateTreeRunStatus FUHLSTTask_PlayAnimMontage::Tick(FStateTreeExecutionContext& Context, const float DeltaTime) const
 {
 	FInstanceDataType& InstanceData = Context.GetInstanceData(*this);
 	if ((InstanceData.bFinishTaskOnCompleted && InstanceData.bCompletedTriggered)
@@ -153,7 +153,7 @@ EStateTreeRunStatus FUHLSTTaskPlayAnimMontage::Tick(FStateTreeExecutionContext& 
 	return FStateTreeTaskCommonBase::Tick(Context, DeltaTime);
 }
 
-void FUHLSTTaskPlayAnimMontage::ExitState(FStateTreeExecutionContext& Context, const FStateTreeTransitionResult& Transition) const
+void FUHLSTTask_PlayAnimMontage::ExitState(FStateTreeExecutionContext& Context, const FStateTreeTransitionResult& Transition) const
 {
 	FInstanceDataType& InstanceData = Context.GetInstanceData(*this);
 	if (UAnimInstance* AnimInstance = InstanceData.BoundAnimInstance.Get())
@@ -167,13 +167,13 @@ void FUHLSTTaskPlayAnimMontage::ExitState(FStateTreeExecutionContext& Context, c
 }
 
 #if WITH_EDITOR
-FText FUHLSTTaskPlayAnimMontage::GetDescription(const FGuid& ID, FStateTreeDataView InstanceDataView, const IStateTreeBindingLookup& BindingLookup, EStateTreeNodeFormatting Formatting) const
+FText FUHLSTTask_PlayAnimMontage::GetDescription(const FGuid& ID, FStateTreeDataView InstanceDataView, const IStateTreeBindingLookup& BindingLookup, EStateTreeNodeFormatting Formatting) const
 {
 	const FInstanceDataType* InstanceData = InstanceDataView.GetPtr<FInstanceDataType>();
 	check(InstanceData);
 
 	FString MontageStr;
-	const FPropertyBindingPath MontagePath(ID, GET_MEMBER_NAME_CHECKED(FUHLSTTaskPlayAnimMontageInstanceData, AnimMontage));
+	const FPropertyBindingPath MontagePath(ID, GET_MEMBER_NAME_CHECKED(FUHLSTTask_PlayAnimMontageInstanceData, AnimMontage));
 	FText MontageBinding = BindingLookup.GetBindingSourceDisplayName(MontagePath);
 	if (!MontageBinding.IsEmpty())
 	{

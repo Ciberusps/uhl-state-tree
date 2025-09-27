@@ -1,6 +1,6 @@
 ﻿// Pavel Penkov 2025 All Rights Reserved.
 
-#include "Tasks/UHLStateTreeSetCooldownTask.h"
+#include "Tasks/UHLSTTask_SetCooldown.h"
 
 #include "AIController.h"
 #include "StateTreeExecutionContext.h"
@@ -8,11 +8,11 @@
 #include "DrawDebugHelpers.h"
 #include "Components/UHLStateTreeAIComponent.h"
 
-#include UE_INLINE_GENERATED_CPP_BY_NAME(UHLStateTreeSetCooldownTask)
+#include UE_INLINE_GENERATED_CPP_BY_NAME(UHLSTTask_SetCooldown)
 
-#define LOCTEXT_NAMESPACE "UHLStateTree"
+#define LOCTEXT_NAMESPACE "UHLSTTask_SetCooldown"
 
-EStateTreeRunStatus FUHLStateTreeSetCooldownTask::EnterState(FStateTreeExecutionContext& Context, const FStateTreeTransitionResult& Transition) const
+EStateTreeRunStatus FUHLSTTask_SetCooldown::EnterState(FStateTreeExecutionContext& Context, const FStateTreeTransitionResult& Transition) const
 {
 	const FInstanceDataType& InstanceData = Context.GetInstanceData(*this);
 	
@@ -50,7 +50,7 @@ EStateTreeRunStatus FUHLStateTreeSetCooldownTask::EnterState(FStateTreeExecution
 }
 
 #if WITH_EDITOR
-FText FUHLStateTreeSetCooldownTask::GetDescription(const FGuid& ID, FStateTreeDataView InstanceDataView, const IStateTreeBindingLookup& BindingLookup, EStateTreeNodeFormatting Formatting) const
+FText FUHLSTTask_SetCooldown::GetDescription(const FGuid& ID, FStateTreeDataView InstanceDataView, const IStateTreeBindingLookup& BindingLookup, EStateTreeNodeFormatting Formatting) const
 {
 	const FInstanceDataType* InstanceData = InstanceDataView.GetPtr<FInstanceDataType>();
 	check(InstanceData);

@@ -4,13 +4,13 @@
 
 #include "AIController.h"
 #include "StateTreeTaskBase.h"
-#include "UHLStateTreeSetCooldownTask.generated.h"
+#include "UHLSTTask_SetCooldown.generated.h"
 
 enum class EStateTreeRunStatus : uint8;
 struct FStateTreeTransitionResult;
 
 USTRUCT()
-struct UHLSTATETREE_API FUHLStateTreeSetCooldownTaskInstanceData
+struct UHLSTATETREE_API FUHLSTTask_SetCooldownInstanceData
 {
 	GENERATED_BODY()
 
@@ -38,14 +38,14 @@ struct UHLSTATETREE_API FUHLStateTreeSetCooldownTaskInstanceData
 /**
  * Draws debug text on the HUD associated to the player controller.
  */
-USTRUCT(meta = (DisplayName = "Set Cooldown Task"))
-struct UHLSTATETREE_API FUHLStateTreeSetCooldownTask : public FStateTreeTaskCommonBase
+USTRUCT(meta = (DisplayName = "Set Cooldown", Category="UHLStateTree"))
+struct UHLSTATETREE_API FUHLSTTask_SetCooldown : public FStateTreeTaskCommonBase
 {
 	GENERATED_BODY()
 
-	using FInstanceDataType = FUHLStateTreeSetCooldownTaskInstanceData;
+	using FInstanceDataType = FUHLSTTask_SetCooldownInstanceData;
 
-	FUHLStateTreeSetCooldownTask() = default;
+	FUHLSTTask_SetCooldown() = default;
 
 	virtual const UStruct* GetInstanceDataType() const override { return FInstanceDataType::StaticStruct(); }
 

@@ -1,6 +1,6 @@
 ﻿// Pavel Penkov 2025 All Rights Reserved.
 
-#include "Tasks/UHLStateTreeTaskTurnTo.h"
+#include "Tasks/UHLSTTask_TurnTo.h"
 
 #include "AIController.h"
 #include "StateTreeExecutionContext.h"
@@ -12,11 +12,11 @@
 #include "Engine/Engine.h"
 #include "Kismet/KismetSystemLibrary.h"
 
-#include UE_INLINE_GENERATED_CPP_BY_NAME(UHLStateTreeTaskTurnTo)
+#include UE_INLINE_GENERATED_CPP_BY_NAME(UHLSTTask_TurnTo)
 
-#define LOCTEXT_NAMESPACE "UHLStateTreeTaskTurnTo"
+#define LOCTEXT_NAMESPACE "UHLSTTask_TurnTo"
 
-EStateTreeRunStatus FUHLStateTreeTaskTurnTo::EnterState(FStateTreeExecutionContext& Context, const FStateTreeTransitionResult& Transition) const
+EStateTreeRunStatus FUHLSTTask_TurnTo::EnterState(FStateTreeExecutionContext& Context, const FStateTreeTransitionResult& Transition) const
 {
 	FInstanceDataType& InstanceData = Context.GetInstanceData(*this);
 	EStateTreeRunStatus Result = InstanceData.bInfinite
@@ -131,7 +131,7 @@ EStateTreeRunStatus FUHLStateTreeTaskTurnTo::EnterState(FStateTreeExecutionConte
 	return Result;
 }
 
-EStateTreeRunStatus FUHLStateTreeTaskTurnTo::Tick(
+EStateTreeRunStatus FUHLSTTask_TurnTo::Tick(
 	FStateTreeExecutionContext& Context, const float DeltaTime) const
 {
 	FInstanceDataType& InstanceData = Context.GetInstanceData(*this);
@@ -265,7 +265,7 @@ EStateTreeRunStatus FUHLStateTreeTaskTurnTo::Tick(
 }
 
 #if WITH_EDITOR
-FText FUHLStateTreeTaskTurnTo::GetDescription(const FGuid& ID, FStateTreeDataView InstanceDataView, const IStateTreeBindingLookup& BindingLookup, EStateTreeNodeFormatting Formatting) const
+FText FUHLSTTask_TurnTo::GetDescription(const FGuid& ID, FStateTreeDataView InstanceDataView, const IStateTreeBindingLookup& BindingLookup, EStateTreeNodeFormatting Formatting) const
 {
 	const FInstanceDataType* InstanceData = InstanceDataView.GetPtr<FInstanceDataType>();
 	check(InstanceData);
@@ -281,7 +281,7 @@ FText FUHLStateTreeTaskTurnTo::GetDescription(const FGuid& ID, FStateTreeDataVie
 }
 #endif
 
-FTurnSettings FUHLStateTreeTaskTurnTo::GetTurnSettings(FStateTreeExecutionContext& Context, AActor* Actor) const
+FTurnSettings FUHLSTTask_TurnTo::GetTurnSettings(FStateTreeExecutionContext& Context, AActor* Actor) const
 {
 	FInstanceDataType& InstanceData = Context.GetInstanceData(*this);
 

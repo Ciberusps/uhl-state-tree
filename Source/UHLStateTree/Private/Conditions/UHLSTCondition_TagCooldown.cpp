@@ -1,26 +1,17 @@
 // Pavel Penkov 2025 All Rights Reserved.
 
-#include "Conditions/UHLStateTreeTagCooldownCondition.h"
+#include "Conditions/UHLSTCondition_TagCooldown.h"
 
 #include "AIController.h"
 #include "StateTreeExecutionContext.h"
 #include "StateTreeNodeDescriptionHelpers.h"
 #include "Components/UHLStateTreeAIComponent.h"
 
-#include UE_INLINE_GENERATED_CPP_BY_NAME(UHLStateTreeTagCooldownCondition)
+#include UE_INLINE_GENERATED_CPP_BY_NAME(UHLSTCondition_TagCooldown)
 
-#if WITH_EDITOR
-#define LOCTEXT_NAMESPACE "UHLStateTree"
+#define LOCTEXT_NAMESPACE "UHLSTCondition_TagCooldown"
 
-namespace UE::StateTree::Conditions
-{
-
-
-}
-
-#endif// WITH_EDITOR
-
-bool FUHLStateTreeTagCooldownCondition::TestCondition(FStateTreeExecutionContext& Context) const
+bool FUHLSTCondition_TagCooldown::TestCondition(FStateTreeExecutionContext& Context) const
 {
 	const FInstanceDataType& InstanceData = Context.GetInstanceData(*this);
 
@@ -41,7 +32,7 @@ bool FUHLStateTreeTagCooldownCondition::TestCondition(FStateTreeExecutionContext
 }
 
 #if WITH_EDITOR
-FText FUHLStateTreeTagCooldownCondition::GetDescription(const FGuid& ID, FStateTreeDataView InstanceDataView, const IStateTreeBindingLookup& BindingLookup, EStateTreeNodeFormatting Formatting) const
+FText FUHLSTCondition_TagCooldown::GetDescription(const FGuid& ID, FStateTreeDataView InstanceDataView, const IStateTreeBindingLookup& BindingLookup, EStateTreeNodeFormatting Formatting) const
 {
 	const FInstanceDataType* InstanceData = InstanceDataView.GetPtr<FInstanceDataType>();
 	check(InstanceData);

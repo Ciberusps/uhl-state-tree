@@ -6,13 +6,13 @@
 #include "StateTreeTaskBase.h"
 #include "Core/UHLAIActorSettings.h"
 #include "Data/TurnSettings.h"
-#include "UHLStateTreeTaskTurnTo.generated.h"
+#include "UHLSTTask_TurnTo.generated.h"
 
 enum class EStateTreeRunStatus : uint8;
 struct FStateTreeTransitionResult;
 
 USTRUCT()
-struct UHLSTATETREE_API FUHLStateTreeTaskTurnToInstanceData
+struct UHLSTATETREE_API FUHLSTTask_TurnToInstanceData
 {
 	GENERATED_BODY()
 
@@ -71,14 +71,14 @@ struct UHLSTATETREE_API FUHLStateTreeTaskTurnToInstanceData
 /**
  * Draws debug text on the HUD associated to the player controller.
  */
-USTRUCT(meta = (DisplayName = "Turn To"))
-struct UHLSTATETREE_API FUHLStateTreeTaskTurnTo : public FStateTreeTaskCommonBase
+USTRUCT(meta = (DisplayName = "Turn To", Category="UHLStateTree"))
+struct UHLSTATETREE_API FUHLSTTask_TurnTo : public FStateTreeTaskCommonBase
 {
 	GENERATED_BODY()
 
-	using FInstanceDataType = FUHLStateTreeTaskTurnToInstanceData;
+	using FInstanceDataType = FUHLSTTask_TurnToInstanceData;
 
-	FUHLStateTreeTaskTurnTo() = default;
+	FUHLSTTask_TurnTo() = default;
 
 	virtual const UStruct* GetInstanceDataType() const override { return FInstanceDataType::StaticStruct(); }
 

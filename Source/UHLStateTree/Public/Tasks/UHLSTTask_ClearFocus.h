@@ -4,14 +4,14 @@
 
 #include "AIController.h"
 #include "StateTreeTaskBase.h"
-#include "UHLStateTreeGameplayFocus.h"
-#include "UHLStateTreeClearFocus.generated.h"
+#include "UHLSTTask_GameplayFocus.h"
+#include "UHLSTTask_ClearFocus.generated.h"
 
 enum class EStateTreeRunStatus : uint8;
 struct FStateTreeTransitionResult;
 
 USTRUCT()
-struct UHLSTATETREE_API FUHLStateTreeClearFocusInstanceData
+struct UHLSTATETREE_API FUHLSTTask_ClearFocusInstanceData
 {
 	GENERATED_BODY()
 
@@ -25,14 +25,14 @@ struct UHLSTATETREE_API FUHLStateTreeClearFocusInstanceData
 	bool bFinishTask = true;
 };
 
-USTRUCT(meta = (DisplayName = "ClearFocus"))
-struct UHLSTATETREE_API FUHLStateTreeClearFocus : public FStateTreeTaskCommonBase
+USTRUCT(meta = (DisplayName = "ClearFocus", Category="UHLStateTree"))
+struct UHLSTATETREE_API FUHLSTTask_ClearFocus : public FStateTreeTaskCommonBase
 {
 	GENERATED_BODY()
 
-	using FInstanceDataType = FUHLStateTreeClearFocusInstanceData;
+	using FInstanceDataType = FUHLSTTask_ClearFocusInstanceData;
 	
-	FUHLStateTreeClearFocus() = default;
+	FUHLSTTask_ClearFocus() = default;
 
 	virtual const UStruct* GetInstanceDataType() const override { return FInstanceDataType::StaticStruct(); }
 
