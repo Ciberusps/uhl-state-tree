@@ -63,12 +63,20 @@ UHL-StateTree consists of a single module:
 >   - [TagCooldownCondition](#TagCooldownCondition)
 >   - [InRange]()
 >   - [InAngle]()
+> - Evaluators
+>   - [TODO: GetGASGamplayTags]()
+>   - [TODO: GetSelfGASGamplayTags]() - child of GetGASGamplayTags
+>   - [TODO: GetEnemyGASGamplayTags]() - child of GetGASGamplayTags
+> - Considers
+>   - [TODO: ByHavingTags]()
 > - Tasks
 >   - [SetCooldownTask](#SetCooldownTask)
 >   - [PlayAnimMontage]()
 >   - [GameplayFocus]()
 >   - [ClearFocus]()
 >   - [TurnTo]()
+>   - [TODO: ActivateGameplayAbility]()
+>   - [TODO: ApplyGameplayEffect]()
 
 
 ### `UUHLStateTreeComponent`
