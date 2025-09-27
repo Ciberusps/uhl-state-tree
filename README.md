@@ -60,13 +60,21 @@ UHL-StateTree consists of a single module:
 > - Components
 >   - [UHLStateTreeAIComponent](#UUHLStateTreeAIComponent)
 > - Conditions
->   - [StateTreeTagCooldownCondition](#StateTreeTagCooldownCondition)
+>   - [TagCooldownCondition](#TagCooldownCondition)
+>   - [InRange]()
+>   - [InAngle]()
 > - Tasks
->   - [StateTreeSetCooldownTask](#StateTreeSetCooldownTask)
+>   - [SetCooldownTask](#SetCooldownTask)
+>   - [PlayAnimMontage]()
+>   - [GameplayFocus]()
+>   - [ClearFocus]()
+>   - [TurnTo]()
+
 
 ### `UUHLStateTreeComponent`
 
 Attach this component to an `AAIController` in Blueprint or C++.
+In `UE5.5` there is bug with LinkedStateTreeOverrides, this component adds ability to use LinkedStateTreeOverrides  
 
 ## 🤝 Contributing
 
