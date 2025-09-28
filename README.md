@@ -1,6 +1,6 @@
 # UHL State Tree
 
-**UHL-StateTree** - Unreal plugin providing tools for **StateTree AI**, similar to UHL BehaviorTrees nodes. Simplify integration of StateTree into your project with ready-to-use components - tasks/evaluators/conditions/considirations and blueprint libraries.
+**UHL-StateTree** - Unreal plugin providing tools for **StateTree AI**, similar to [UHL BehaviorTrees nodes](https://github.com/Ciberusps/UHLBehaviorTree). Simplify integration of StateTree into your project with ready-to-use components - tasks/evaluators/conditions/considirations and blueprint libraries.
 
 Support: `UE5.5 (main)`
 
