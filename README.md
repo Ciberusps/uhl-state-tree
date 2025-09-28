@@ -1,59 +1,32 @@
-# UHL State Tree
+# 🌿 UHL State Tree
 
 **UHL-StateTree** - Unreal plugin providing tools for **StateTree AI**, similar to [UHL BehaviorTrees nodes](https://github.com/Ciberusps/UHLBehaviorTree). Simplify integration of StateTree into your project with ready-to-use components - tasks/evaluators/conditions/considirations and blueprint libraries.
 
 Support: `UE5.5 (main)`
 
----
 
 ## ✨ Features
 
 - cooldowns by tag
 - InRange and other nodes similar to [UnrealHelperLibrary](https://github.com/Ciberusps/unreal-helper-library) BehaviorTree nodes
 
----
 
-## 🛠️ Install
+## 🚀 Install & ⬆️ Update
 
-#### From source (recommended):
+#### From source (recommended)
 
-1. Add plugin as a git submodule in your project's `Plugins` folder:
+```bash
+// install as git submodule to your plugins folder
+git submodule add https://github.com/Ciberusps/uhl-state-tree.git ./Plugins/UHLStateTree
 
-   ```bash
-   // install of UnrealHelperLibrary required
-   git submodule add https://github.com/Ciberusps/unreal-helper-library.git ./Plugins/UnrealHelperLibrary
-   git submodule add https://github.com/Ciberusps/uhl-state-tree.git ./Plugins/UHLStateTree
-   ```
+// to update plugin
+git submodule update --remote`
+```
 
-2. (Optional) For C++ projects, modify your `<ProjectName>.Build.cs`:
+## 🚀 Setup
 
-   ```csharp
-   // <ProjectName>.Build.cs
-   PublicDependencyModuleNames.AddRange(new string[] {
-       "UHLStateTree",
-   });
-   ```
+TODO how to setup in project
 
-> **NOTE**: To target a specific engine version (e.g. UE5.4), specify branch:
-> `git submodule add -b UE5.4 https://github.com/Ciberusps/uhl-state-tree.git ./Plugins/UHLStateTree`
-
----
-
-## ⬆️ Update
-
-From source:
-
-- `git submodule update --remote` to update plugin(s) from source
-
----
-
-## 📦 Modules
-
-UHL-StateTree consists of a single module:
-
-- **UHLStateTree** – core runtime and editor support for StateTree integration.
-
----
 
 ## 📖 Documentation
 
@@ -77,7 +50,6 @@ UHL-StateTree consists of a single module:
 >   - [TurnTo]()
 >   - [TODO: ActivateGameplayAbility]()
 >   - [TODO: ApplyGameplayEffect]()
-
 
 ### `UUHLStateTreeComponent`
 
